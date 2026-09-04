@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BuddyJudge - Intelligent Learning Companion</title>
+    <!-- Font Awesome CDN for Interface Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  </head>
+  <body class="bg-[#f4f5fc] text-slate-700 min-h-screen font-sans flex antialiased selection:bg-brand-500 selection:text-white">
+    <div id="root" class="w-full h-full flex"></div>
+    <script type="module" src="/src/main.jsx"></script>
+    <script data-purpose="toggle-interactions">
+      document.addEventListener('DOMContentLoaded', () => {
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach(btn => {
+          btn.addEventListener('click', function() {
+            this.classList.add('scale-95');
+            setTimeout(() => this.classList.remove('scale-95'), 120);
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
