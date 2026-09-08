@@ -1,4 +1,4 @@
-import CourseCard from './CourseCard';
+import CourseCard from '../components/CourseCard';
 
 export default function Dashboard({ user }) {
   const firstName = (user?.user_metadata?.full_name || user?.user_metadata?.name || 'there').split(' ')[0]

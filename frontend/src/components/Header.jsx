@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export default function Header({ user }) {
   const fullName = user?.user_metadata?.full_name || user?.user_metadata?.name || 'User'
   const avatarUrl = user?.user_metadata?.avatar_url || user?.user_metadata?.picture || null
@@ -42,7 +44,7 @@ export default function Header({ user }) {
         <div className="h-8 w-px bg-slate-200 mx-1"></div>
         
         {/* User Profile Quick Info */}
-        <div className="flex items-center gap-3 pl-1 cursor-pointer">
+        <Link to="/profile" className="flex items-center gap-3 pl-1 cursor-pointer hover:bg-slate-50 p-2 rounded-xl transition-all">
           <div className="relative">
             {avatarUrl ? (
               <img
@@ -61,8 +63,8 @@ export default function Header({ user }) {
             <h5 className="text-sm font-semibold text-slate-800 leading-tight">{fullName}</h5>
             <p className="text-[11px] font-medium text-slate-400">Senior Student</p>
           </div>
-          <i className="fa-solid fa-chevron-down text-[10px] text-slate-400 hidden lg:block"></i>
-        </div>
+          <i className="fa-solid fa-chevron-right text-[10px] text-slate-400 hidden lg:block ml-1"></i>
+        </Link>
       </div>
     </header>
   );

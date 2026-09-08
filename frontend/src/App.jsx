@@ -1,10 +1,20 @@
 import { useEffect, useState } from 'react'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { supabase } from './supabase'
 import './App.css'
-import Sidebar from './components/Sidebar'
-import Header from './components/Header'
-import Dashboard from './components/Dashboard'
+
 import LoginPage from './components/LoginPage'
+import MainLayout from './layouts/MainLayout'
+
+// Pages
+import Home from './pages/Home'
+import ProjectValidation from './pages/ProjectValidation'
+import PPTAnalyzer from './pages/PPTAnalyzer'
+import LabHub from './pages/LabHub'
+import AIAssistant from './pages/AIAssistant'
+import EventsExams from './pages/EventsExams'
+import Settings from './pages/Settings'
+import Profile from './pages/Profile'
 
 function App() {
   const [session, setSession] = useState(undefined) // undefined = loading
@@ -19,6 +29,13 @@ function App() {
 
     if (error) {
       console.error('Google login error:', error.message)
+    }
+  }
+
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut()
+    if (error) {
+      console.error('Logout error:', error.message)
     }
   }
 
@@ -57,31 +74,32 @@ function App() {
   // While resolving the initial session, render nothing to avoid a flash
   if (session === undefined) return null
 
-  // Not logged in → show login screen
-  if (!session) {
-    return <LoginPage onGoogleLogin={handleGoogleLogin} />
-  }
-
-  // Authenticated → show existing dashboard unchanged
   return (
-    <>
-      <Sidebar />
-      <div className="ml-64 flex-1 flex flex-col min-w-0">
+    <BrowserRouter>
+      <Routes>
+        {/* Public / Login Route */}
+        <Route 
+          path="/login" 
+          element={!session ? <LoginPage onGoogleLogin={handleGoogleLogin} /> : <Navigate to="/" replace />} 
+        />
 
-        <Header user={session.user} />
-        <Dashboard user={session.user} />
-
-        {/* Footer */}
-        <footer className="px-8 py-6 border-t border-slate-100 text-xs text-slate-400 flex flex-col sm:flex-row items-center justify-between gap-4" data-purpose="dashboard-footer">
-          <p>© 2025 BuddyJudge Inc. All rights reserved. Crafted for modern learners &amp; creators.</p>
-          <div className="flex items-center gap-6">
-            <a className="hover:text-slate-600 transition-colors" href="#">Privacy Policy</a>
-            <a className="hover:text-slate-600 transition-colors" href="#">Terms of Service</a>
-            <a className="hover:text-slate-600 transition-colors" href="#">System Status</a>
-          </div>
-        </footer>
-      </div>
-    </>
+        {/* Protected Routes inside MainLayout */}
+        {session ? (
+          <Route element={<MainLayout user={session.user} onLogout={handleLogout} />}>
+            <Route path="/" element={<Home user={session.user} />} />
+            <Route path="/project-validation" element={<ProjectValidation />} />
+            <Route path="/ppt-analyzer" element={<PPTAnalyzer />} />
+            <Route path="/lab-hub" element={<LabHub />} />
+            <Route path="/ai-assistant" element={<AIAssistant />} />
+            <Route path="/events-exams" element={<EventsExams />} />
+            <Route path="/settings" element={<Settings user={session.user} onLogout={handleLogout} />} />
+            <Route path="/profile" element={<Profile user={session.user} />} />
+          </Route>
+        ) : (
+          <Route path="*" element={<Navigate to="/login" replace />} />
+        )}
+      </Routes>
+    </BrowserRouter>
   )
 }
 
