@@ -1,4 +1,0 @@
-# Root-level requirements.txt required by Vercel's Python runtime.
-# All actual dependencies are declared in backend/requirements.txt;
-# this file simply re-exports them so Vercel installs them at build time.
--r backend/requirements.txt
