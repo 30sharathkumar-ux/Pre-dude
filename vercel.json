@@ -1,25 +1,9 @@
 {
-  "services": {
-    "frontend": {
-      "root": "frontend/"
-    },
-    "backend": {
-      "root": "backend/",
-      "entrypoint": "app.main:app"
-    }
-  },
+  "buildCommand": "cd frontend && npm install && npm run build",
+  "outputDirectory": "frontend/dist",
   "rewrites": [
-    {
-      "source": "/api/:path*",
-      "destination": {
-        "service": "backend"
-      }
-    },
-    {
-      "source": "/:path*",
-      "destination": {
-        "service": "frontend"
-      }
-    }
+    { "source": "/api/(.*)", "destination": "/api/index" },
+    { "source": "/(.*)",     "destination": "/index.html" }
   ]
 }
+
