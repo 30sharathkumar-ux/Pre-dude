@@ -9,6 +9,8 @@ app = FastAPI(
     description="Backend API for BuddyJudge — AI-powered project evaluation for students.",
 )
 
+import os
+
 # ---------------------------------------------------------------------------
 # CORS
 # Allow the Vite dev server during development.
@@ -20,6 +22,10 @@ origins = [
     "http://localhost:5175",
     "http://127.0.0.1:5175",
 ]
+
+frontend_url = os.getenv("FRONTEND_URL")
+if frontend_url:
+    origins.append(frontend_url.rstrip("/"))
 
 app.add_middleware(
     CORSMiddleware,

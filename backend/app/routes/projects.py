@@ -1,9 +1,16 @@
-from fastapi import APIRouter, HTTPException
+# Connect the existing BuddyJudge React Project Validation UI to the real AI evaluation backend.
+# Expected request shape: { project_type, project_name, problem_statement, solution_description,
+#   target_users, technology_stack, innovation, implementation, impact,
+#   business_model, competitors, additional_information }
+
 from pydantic import BaseModel, ValidationError
 
 from app.services.gemini_service import get_client, GEMINI_MODEL
 from app.schemas.evaluation import EvaluationRequest, EvaluationResponse
 from app.services.evaluation_service import evaluate_project
+
+from fastapi import APIRouter, HTTPException
+from pydantic import BaseModel
 
 router = APIRouter()
 

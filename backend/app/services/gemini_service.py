@@ -21,10 +21,13 @@ env_path = Path(__file__).resolve().parent.parent.parent / ".env"
 load_dotenv(dotenv_path=env_path)
 
 # ---- Model -----------------------------------------------------------------
-# gemini-2.5-flash is the latest stable Flash model available in the
-# google-genai SDK as of September 2026.
-# Update this constant when a newer stable Flash model is released.
-GEMINI_MODEL = "gemini-3.6-flash"
+# gemini-3.5-flash is the stable Flash model confirmed to work with
+# response_schema structured-output calls on this API key (September 2026).
+# gemini-3.6-flash was tested and returns 503 for all response_schema calls
+# despite accepting plain-text generation — do not revert to it.
+# Update this constant only after confirming structured output works with
+# the candidate model via the /api/projects/gemini-test endpoint.
+GEMINI_MODEL = "gemini-3.5-flash"
 
 # ---- Client (lazy) ---------------------------------------------------------
 # The client is created on first use, NOT at import time.

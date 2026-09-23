@@ -335,7 +335,10 @@ export default function ProjectValidation() {
   // ---------------------------------------------------------------------------
 
   const submitEvaluation = async (body) => {
-    const EVALUATE_URL = 'http://localhost:8000/api/projects/evaluate';
+    // In production VITE_API_BASE_URL is unset → empty string → same-origin /api/... paths.
+    // In local dev set VITE_API_BASE_URL=http://localhost:8000 in frontend/.env.
+    const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
+    const EVALUATE_URL = `${API_BASE}/api/projects/evaluate`;
 
     try {
       const controller = new AbortController();
